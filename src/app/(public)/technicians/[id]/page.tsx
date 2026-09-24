@@ -1,12 +1,12 @@
 import { Star } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ServiceCard } from "@/components/features/service-card";
+import { BookingTrigger } from "@/components/features/booking-trigger";
 import { Container } from "@/components/shared/container";
+import { PriceTag } from "@/components/shared/price-tag";
 import { RatingStars } from "@/components/shared/rating-stars";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { serverFetch } from "@/lib/server-fetch";
 import {
   fetchTechnicianForSSG,
@@ -18,13 +18,12 @@ type TechnicianPageProps = {
   params: Promise<{ id: string }>;
 };
 
-// SSG: বিল্ডের সময় প্রতিটা টেকনিশিয়ানের জন্য আলাদা স্ট্যাটিক পেজ তৈরি হয়
 export async function generateStaticParams() {
   try {
     const { technicians } = await fetchTechniciansForSSG({ limit: 100 });
     return technicians.map((technician) => ({ id: technician.id }));
   } catch {
-    return []; // বিল্ডের সময় API না পেলেও বিল্ড ভাঙবে না
+    return [];
   }
 }
 
@@ -62,8 +61,6 @@ export default async function TechnicianDetailPage({
   const technician = await fetchTechnicianForSSG(id).catch(() => null);
   if (!technician) notFound();
 
-  // technicianId দিয়ে backend সরাসরি ফিল্টার করে কিনা যাচাই হয়নি,
-  // তাই নিরাপদে একটা বড় ব্যাচ এনে ক্লায়েন্টে (এখানে সার্ভার-কম্পোনেন্টেই) ফিল্টার করছি
   const servicesResult = await serverFetch<Service[]>(
     "/services?limit=100",
   ).catch(() => null);
@@ -72,6 +69,7 @@ export default async function TechnicianDetailPage({
   );
 
   const profile = technician.technicianProfile;
+  const availability = profile?.availability ?? [];
 
   return (
     <Container className="py-10 sm:py-14">
@@ -121,9 +119,28 @@ export default async function TechnicianDetailPage({
           <div className="space-y-4">
             <h2 className="text-lg font-semibold">Services</h2>
             {services.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-3">
                 {services.map((service) => (
-                  <ServiceCard key={service.id} service={service} />
+                  <div
+                    key={service.id}
+                    className="flex items-center justify-between gap-4 rounded-xl border bg-card p-4"
+                  >
+                    <div className="min-w-0 space-y-1">
+                      <p className="truncate font-medium">{service.title}</p>
+                      <p className="line-clamp-1 text-sm text-muted-foreground">
+                        {service.description}
+                      </p>
+                      <PriceTag amount={service.price} size="sm" />
+                    </div>
+                    <BookingTrigger
+                      technicianName={technician.name}
+                      services={services}
+                      availability={availability}
+                      preselectedServiceId={service.id}
+                      label="Book"
+                      className="shrink-0"
+                    />
+                  </div>
                 ))}
               </div>
             ) : (
@@ -134,7 +151,6 @@ export default async function TechnicianDetailPage({
           </div>
         </div>
 
-        {/* Book Now — Part 7-এ কাজ করবে */}
         <aside className="h-fit space-y-4 rounded-xl border bg-card p-6">
           <div className="flex items-center gap-2">
             <Star className="size-4 fill-rating text-rating" />
@@ -146,11 +162,14 @@ export default async function TechnicianDetailPage({
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            একটা সার্ভিস বেছে বুক করো — বুকিং ফ্লো Part 7-এ যোগ হবে।
+            একটা সার্ভিস বেছে সময়মতো বুক করো।
           </p>
-          <Button size="lg" className="w-full" disabled>
-            Book Now
-          </Button>
+          <BookingTrigger
+            technicianName={technician.name}
+            services={services}
+            availability={availability}
+            className="w-full"
+          />
         </aside>
       </div>
     </Container>

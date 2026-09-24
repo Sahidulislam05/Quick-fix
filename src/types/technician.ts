@@ -23,6 +23,7 @@ export type TechnicianProfileData = {
   skills: string[];
   avgRating: number;
   totalReviews: number;
+  availability?: AvailabilitySlot[];
   createdAt: string;
   updatedAt: string;
 };
