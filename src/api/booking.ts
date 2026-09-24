@@ -4,7 +4,7 @@ import type { Booking } from "@/types/booking";
 
 export type CreateBookingPayload = {
   serviceId: string;
-  scheduledDate: string; // ISO string
+  scheduledDate: string;
   address: string;
 };
 

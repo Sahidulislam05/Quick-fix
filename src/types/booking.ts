@@ -10,6 +10,6 @@ export type Booking = {
   address: string;
   cancelReason?: string | null;
   createdAt: string;
-  service?: { id: string; title: string; price: number };
+  service?: { id: string; title: string; price: number | string };
   technician?: { id: string; name: string };
 };

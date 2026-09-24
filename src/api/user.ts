@@ -14,10 +14,7 @@ export type UpdateMyProfilePayload = {
 export async function updateMyProfile(payload: UpdateMyProfilePayload) {
   const res = await apiClient<{ data: { updatedProfile: User } }>(
     "/users/my-profile",
-    {
-      method: "PUT",
-      body: payload,
-    },
+    { method: "PUT", body: payload },
   );
   return res.data.updatedProfile;
 }

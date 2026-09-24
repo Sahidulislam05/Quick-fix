@@ -4,10 +4,7 @@ import type { CreatePaymentSessionResponse, Payment } from "@/types/payment";
 export async function createPaymentSession(bookingId: string) {
   const res = await apiClient<{ data: CreatePaymentSessionResponse }>(
     "/payments/create",
-    {
-      method: "POST",
-      body: { bookingId },
-    },
+    { method: "POST", body: { bookingId } },
   );
   return res.data;
 }

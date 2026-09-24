@@ -4,7 +4,7 @@ export type Payment = {
   id: string;
   bookingId: string;
   tranId: string;
-  amount: number;
+  amount: number | string;
   status: PaymentStatus;
   createdAt: string;
 };

@@ -45,6 +45,7 @@ export async function generateMetadata({
 }
 
 function initials(name: string) {
+  if (!name) return "?";
   return name
     .split(" ")
     .map((part) => part[0])
