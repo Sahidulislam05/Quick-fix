@@ -1,0 +1,186 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+  /* ফন্ট (ভ্যারিয়েবলগুলো আসে src/lib/fonts.ts থেকে) */
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
+  --font-heading: var(--font-display);
+
+  /* মূল রঙ */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* QuickFix-এর নিজস্ব: রেটিং আর ৭টি বুকিং স্ট্যাটাস */
+  --color-rating: var(--rating);
+  --color-status-requested: var(--status-requested);
+  --color-status-accepted: var(--status-accepted);
+  --color-status-declined: var(--status-declined);
+  --color-status-paid: var(--status-paid);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-completed: var(--status-completed);
+  --color-status-cancelled: var(--status-cancelled);
+
+  /* shadcn-এর বাকি টোকেন */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* কোণ গোল করার মাপ (ধাপ ৪) */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  color-scheme: light dark;
+
+  --radius: 0.75rem;
+
+  --background: oklch(0.985 0.004 95);
+  --foreground: oklch(0.22 0.03 215);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.03 215);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.03 215);
+
+  --primary: oklch(0.511 0.096 186.391);
+  --primary-foreground: oklch(0.985 0.01 190);
+  --secondary: oklch(0.955 0.025 190);
+  --secondary-foreground: oklch(0.32 0.06 200);
+  --muted: oklch(0.965 0.006 100);
+  --muted-foreground: oklch(0.5 0.02 210);
+  --accent: oklch(0.945 0.035 190);
+  --accent-foreground: oklch(0.32 0.06 200);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --border: oklch(0.915 0.01 120);
+  --input: oklch(0.9 0.01 120);
+  --ring: oklch(0.6 0.1 188);
+
+  --rating: oklch(0.769 0.188 70.08);
+
+  /* ধাপ ৩: বুকিং স্ট্যাটাস (লাইটে গাঢ় রঙ, যাতে হালকা ব্যাকগ্রাউন্ডে পড়া যায়) */
+  --status-requested: oklch(0.5 0.14 55);
+  --status-accepted: oklch(0.488 0.243 264.376);
+  --status-declined: oklch(0.5 0.21 27);
+  --status-paid: oklch(0.496 0.265 301.924);
+  --status-in-progress: oklch(0.46 0.13 150);
+  --status-completed: oklch(0.446 0.03 256.8);
+  --status-cancelled: oklch(0.4 0.14 20);
+
+  /* sidebar: অন্য টোকেন থেকে ধার নিচ্ছে, তাই ডার্কে নিজে থেকেই বদলাবে */
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--card-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  /* chart: এখনো ব্যবহার করছি না, shadcn-এর ডিফল্টই রাখলাম */
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.17 0.015 210);
+    --foreground: oklch(0.965 0.005 190);
+    --card: oklch(0.215 0.018 210);
+    --card-foreground: oklch(0.965 0.005 190);
+    --popover: oklch(0.235 0.02 210);
+    --popover-foreground: oklch(0.965 0.005 190);
+
+    --primary: oklch(0.78 0.12 185);
+    --primary-foreground: oklch(0.2 0.04 200);
+    --secondary: oklch(0.29 0.03 205);
+    --secondary-foreground: oklch(0.95 0.01 190);
+    --muted: oklch(0.27 0.02 210);
+    --muted-foreground: oklch(0.72 0.02 200);
+    --accent: oklch(0.32 0.04 195);
+    --accent-foreground: oklch(0.95 0.01 190);
+    --destructive: oklch(0.704 0.191 22.216);
+
+    --border: oklch(1 0 0 / 12%);
+    --input: oklch(1 0 0 / 16%);
+    --ring: oklch(0.65 0.09 188);
+
+    --rating: oklch(0.828 0.189 84.429);
+
+    /* ডার্কে স্ট্যাটাস রঙ হালকা করা হয়েছে, যাতে গাঢ় ব্যাকগ্রাউন্ডে ফুটে ওঠে */
+    --status-requested: oklch(0.879 0.169 91.605);
+    --status-accepted: oklch(0.78 0.12 255);
+    --status-declined: oklch(0.704 0.191 22.216);
+    --status-paid: oklch(0.8 0.13 305);
+    --status-in-progress: oklch(0.792 0.209 151.711);
+    --status-completed: oklch(0.8 0.01 250);
+    --status-cancelled: oklch(0.74 0.09 12);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-tight text-balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
