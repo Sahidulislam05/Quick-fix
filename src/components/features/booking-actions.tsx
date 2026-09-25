@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { CancelBookingDialog } from "@/components/features/cancel-booking-dialog";
 import { ReviewDialog } from "@/components/features/review-dialog";
@@ -19,21 +20,37 @@ export function BookingActions({ booking }: { booking: Booking }) {
       {actions.map((item) => {
         if (item.action === "PAY") {
           return (
-            <Button key={item.action} size="sm" disabled title="Part 9-এ চালু হবে">
+            <Button
+              key={item.action}
+              size="sm"
+              render={
+                <Link href={`/dashboard/customer/bookings/${booking.id}/pay`} />
+              }
+            >
               {item.label}
             </Button>
           );
         }
         if (item.action === "CANCEL") {
           return (
-            <Button key={item.action} size="sm" variant="outline" onClick={() => setCancelOpen(true)}>
+            <Button
+              key={item.action}
+              size="sm"
+              variant="outline"
+              onClick={() => setCancelOpen(true)}
+            >
               {item.label}
             </Button>
           );
         }
         if (item.action === "REVIEW") {
           return (
-            <Button key={item.action} size="sm" variant="outline" onClick={() => setReviewOpen(true)}>
+            <Button
+              key={item.action}
+              size="sm"
+              variant="outline"
+              onClick={() => setReviewOpen(true)}
+            >
               {item.label}
             </Button>
           );
@@ -41,8 +58,16 @@ export function BookingActions({ booking }: { booking: Booking }) {
         return null;
       })}
 
-      <CancelBookingDialog bookingId={booking.id} open={cancelOpen} onOpenChange={setCancelOpen} />
-      <ReviewDialog booking={booking} open={reviewOpen} onOpenChange={setReviewOpen} />
+      <CancelBookingDialog
+        bookingId={booking.id}
+        open={cancelOpen}
+        onOpenChange={setCancelOpen}
+      />
+      <ReviewDialog
+        booking={booking}
+        open={reviewOpen}
+        onOpenChange={setReviewOpen}
+      />
     </div>
   );
 }
