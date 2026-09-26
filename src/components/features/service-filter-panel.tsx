@@ -9,7 +9,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { cn } from "@/lib/utils";
@@ -94,6 +93,16 @@ export function ServiceFilterPanel({
     });
   }
 
+  const selectedCategory = categories.find(
+    (category) => category.id === values.categoryId,
+  );
+  const categoryLabel = selectedCategory
+    ? `${selectedCategory.icon} ${selectedCategory.name}`
+    : "All categories";
+  const ratingLabel =
+    RATING_OPTIONS.find((o) => o.value === (values.minRating || "any"))
+      ?.label ?? "Any rating";
+
   return (
     <div className={cn("space-y-5", className)}>
       <div className="space-y-1.5">
@@ -116,7 +125,7 @@ export function ServiceFilterPanel({
           }
         >
           <SelectTrigger id="filter-category" className="h-10 w-full">
-            <SelectValue placeholder="All categories" />
+            <span className="truncate">{categoryLabel}</span>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All categories</SelectItem>
@@ -149,7 +158,7 @@ export function ServiceFilterPanel({
           }
         >
           <SelectTrigger id="filter-rating" className="h-10 w-full">
-            <SelectValue />
+            <span className="truncate">{ratingLabel}</span>
           </SelectTrigger>
           <SelectContent>
             {RATING_OPTIONS.map((option) => (

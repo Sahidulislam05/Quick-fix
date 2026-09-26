@@ -84,7 +84,13 @@ type UpdateStatusVars = {
   >;
 };
 
-// Accept / Decline / Start / Complete — সবগুলোই এই একটা hook দিয়ে
+const STATUS_SUCCESS_MESSAGE: Record<UpdateStatusVars["status"], string> = {
+  ACCEPTED: "Booking accepted",
+  DECLINED: "Booking declined",
+  IN_PROGRESS: "Job marked as started",
+  COMPLETED: "Job marked as completed",
+};
+
 export function useUpdateBookingStatus() {
   const queryClient = useQueryClient();
 
@@ -98,6 +104,7 @@ export function useUpdateBookingStatus() {
       queryClient.invalidateQueries({
         queryKey: queryKeys.bookings.detail(variables.id),
       });
+      toast.success(STATUS_SUCCESS_MESSAGE[variables.status]);
     },
     onError: (error) => {
       toast.error(

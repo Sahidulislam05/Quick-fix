@@ -26,8 +26,10 @@ export async function getServiceById(id: string) {
 }
 
 export async function getMyServices() {
-  const res = await apiClient<{ data: Service[] }>("/services/my-services");
-  return res.data;
+  const res = await apiClient<{ data: { services: Service[] } }>(
+    "/services/my-services",
+  );
+  return res.data.services;
 }
 
 export type ServicePayload = {
@@ -35,7 +37,7 @@ export type ServicePayload = {
   title: string;
   description: string;
   price: number;
-  location: string;
+  location?: string;
 };
 
 export async function createService(payload: ServicePayload) {

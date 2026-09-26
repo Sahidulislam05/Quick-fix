@@ -7,6 +7,7 @@ export const queryKeys = {
     list: (filters: Record<string, unknown>) =>
       ["technicians", "list", filters] as const,
     detail: (id: string) => ["technicians", id] as const,
+    myAvailability: ["technicians", "me", "availability"] as const,
   },
   services: {
     list: (filters: Record<string, unknown>) =>

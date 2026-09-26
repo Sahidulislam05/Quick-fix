@@ -21,7 +21,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateBooking } from "@/hooks/use-bookings";
@@ -134,7 +133,16 @@ export function BookingDialog({
               onValueChange={(v) => setServiceId(v ?? "")}
             >
               <SelectTrigger className="h-10 w-full">
-                <SelectValue placeholder="Choose a service" />
+                <span
+                  className={cn(
+                    "truncate",
+                    !selectedService && "text-muted-foreground",
+                  )}
+                >
+                  {selectedService
+                    ? `${selectedService.title} — ৳${selectedService.price}`
+                    : "Choose a service"}
+                </span>
               </SelectTrigger>
               <SelectContent>
                 {services.map((service) => (

@@ -11,5 +11,6 @@ export type Booking = {
   cancelReason?: string | null;
   createdAt: string;
   service?: { id: string; title: string; price: number | string };
+  customer?: { id: string; name: string };
   technician?: { id: string; name: string };
 };

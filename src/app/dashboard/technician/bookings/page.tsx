@@ -1,10 +1,11 @@
+import { TechnicianBookingsTable } from "@/components/features/technician-bookings-table";
 import { PageHeader } from "@/components/shared/page-header";
 
 export default function TechnicianBookingsPage() {
   return (
-    <PageHeader
-      title="Bookings"
-      description="Accept/Decline/Start/Complete — Part 10-এ আসবে।"
-    />
+    <div className="space-y-6">
+      <PageHeader title="Bookings" description="ইনকামিং বুকিং রিকোয়েস্ট পরিচালনা করো।" />
+      <TechnicianBookingsTable />
+    </div>
   );
 }
