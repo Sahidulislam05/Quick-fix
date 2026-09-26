@@ -1,11 +1,14 @@
-// src/app/dashboard/admin/categories/page.tsx
+import { AdminCategoriesList } from "@/components/features/admin-categories-list";
 import { PageHeader } from "@/components/shared/page-header";
 
 export default function AdminCategoriesPage() {
   return (
-    <PageHeader
-      title="Categories"
-      description="ক্যাটাগরি লিস্ট, তৈরি, এডিট — Part 11-এ আসবে।"
-    />
+    <div className="space-y-6">
+      <PageHeader
+        title="Categories"
+        description="ক্যাটাগরি তৈরি বা এডিট করো — পরিবর্তন সাথে সাথে পাবলিক পেজেও দেখা যাবে।"
+      />
+      <AdminCategoriesList />
+    </div>
   );
 }

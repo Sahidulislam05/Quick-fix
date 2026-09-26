@@ -71,7 +71,7 @@ export function BookingDialog({
   }, [date, availability]);
 
   const canConfirm = Boolean(
-    serviceId && date && time && address.trim().length > 5,
+    serviceId && date && time && address.trim().length >= 5,
   );
 
   function resetForm() {
@@ -100,8 +100,6 @@ export function BookingDialog({
       })
       .catch(() => null);
 
-    // ✅ ধাপ ৭: এরর হলে (যেমন স্লট আগেই বুকড) এখানেই থেমে যায় — toast useCreateBooking-এর
-    // onError-এই দেখানো হয়ে গেছে, ইউজার dialog-এই থেকে অন্য সময় বেছে আবার চেষ্টা করতে পারবে
     if (!booking) return;
 
     onOpenChange(false);
@@ -214,6 +212,11 @@ export function BookingDialog({
               value={address}
               onChange={(event) => setAddress(event.target.value)}
             />
+            {address.trim().length > 0 && address.trim().length < 5 && (
+              <p className="text-xs text-muted-foreground">
+                আরও একটু বিস্তারিত লেখো (কমপক্ষে ৫ অক্ষর)।
+              </p>
+            )}
           </div>
 
           {/* সামারি */}

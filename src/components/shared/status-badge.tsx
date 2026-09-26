@@ -7,7 +7,11 @@ type StatusBadgeProps = {
 };
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
-  const meta = BOOKING_STATUS_META[status];
+  const meta = BOOKING_STATUS_META[status] ?? {
+    label: String(status ?? "Unknown"),
+    badge: "border-border bg-muted text-muted-foreground",
+    dot: "bg-muted-foreground",
+  };
 
   return (
     <span

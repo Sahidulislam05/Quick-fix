@@ -1,6 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
@@ -43,6 +43,7 @@ export default function PayBookingPage({ params }: PayPageProps) {
   }
 
   const booking = bookingQuery.data;
+  const scheduledDate = new Date(booking.scheduledDate);
 
   return (
     <div className="max-w-lg space-y-6">
@@ -65,7 +66,9 @@ export default function PayBookingPage({ params }: PayPageProps) {
           <StatusBadge status={booking.status} />
         </div>
         <p className="text-sm text-muted-foreground">
-          {format(new Date(booking.scheduledDate), "d MMM yyyy, h:mm a")}
+          {isValid(scheduledDate)
+            ? format(scheduledDate, "d MMM yyyy, h:mm a")
+            : "Schedule unavailable"}
         </p>
         <p className="text-sm text-muted-foreground">{booking.address}</p>
         {booking.service?.price !== undefined && (

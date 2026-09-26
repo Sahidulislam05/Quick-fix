@@ -21,7 +21,6 @@ export type CategoryPayload = {
   icon: string;
 };
 
-// ✅ যাচাই করা: data.category
 export async function createCategory(payload: CategoryPayload) {
   const res = await apiClient<{ data: { category: Category } }>("/categories", {
     method: "POST",
@@ -34,9 +33,12 @@ export async function updateCategory(
   id: string,
   payload: Partial<CategoryPayload>,
 ) {
-  const res = await apiClient<{ data: Category }>(`/categories/${id}`, {
-    method: "PATCH",
-    body: payload,
-  });
-  return res.data;
+  const res = await apiClient<{ data: { category: Category } }>(
+    `/categories/${id}`,
+    {
+      method: "PATCH",
+      body: payload,
+    },
+  );
+  return res.data.category;
 }

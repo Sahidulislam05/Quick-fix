@@ -22,10 +22,11 @@ export async function getMyBookings() {
 }
 
 export async function getBookingById(id: string) {
-  const res = await apiClient<{ data: Booking }>(`/bookings/${id}`);
-  return res.data;
+  const res = await apiClient<{ data: { booking: Booking } }>(
+    `/bookings/${id}`,
+  );
+  return res.data.booking;
 }
-
 export async function cancelBooking(id: string, cancelReason: string) {
   const res = await apiClient<{ data: Booking }>(`/bookings/${id}/cancel`, {
     method: "PATCH",

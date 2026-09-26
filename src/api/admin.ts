@@ -1,21 +1,13 @@
 import { apiClient } from "@/lib/api-client";
-import type { PaginationMeta } from "@/types/api";
+import { unwrapList } from "@/lib/unwrap-list";
 import type { Booking } from "@/types/booking";
 import type { ActiveStatus, User } from "@/types/user";
 
-export type AdminUserFilters = {
-  page?: number;
-  limit?: number;
-};
-
-export async function getAllUsers(filters: AdminUserFilters = {}) {
-  const res = await apiClient<{ data: User[]; meta: PaginationMeta }>(
-    "/admin/users",
-    {
-      params: filters,
-    },
-  );
-  return { data: res.data, meta: res.meta };
+export async function getAllUsers() {
+  const res = await apiClient<{ data: unknown }>("/admin/users", {
+    params: { limit: 100 },
+  });
+  return unwrapList<User>(res.data, "users");
 }
 
 export async function setUserActiveStatus(
@@ -30,6 +22,6 @@ export async function setUserActiveStatus(
 }
 
 export async function getAllBookingsAdmin() {
-  const res = await apiClient<{ data: Booking[] }>("/admin/bookings");
-  return res.data;
+  const res = await apiClient<{ data: unknown }>("/admin/bookings");
+  return unwrapList<Booking>(res.data, "bookings");
 }
