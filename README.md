@@ -46,13 +46,13 @@ with verified technicians for plumbing, electrical, cleaning, and more. Consumes
 
 ### Installation
 
-\`\`\`bash
+bash
 git clone <repo-url>
 cd quickfix
 bun install
 cp .env.example .env.local
 
-# .env.local-এ NEXT_PUBLIC_API_URL এবং NEXT_PUBLIC_SITE_URL বসাও
+# .env.local
 
 \`\`\`
 
