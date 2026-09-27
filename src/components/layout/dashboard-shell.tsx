@@ -113,11 +113,18 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{user?.name ?? "..."}</p>
-                  <p className="text-xs text-muted-foreground">{user?.email}</p>
-                </div>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenu>
+                  <div className="min-w-0 p-2">
+                    <p className="text-sm font-medium">{user?.name ?? "..."}</p>
+                    <p
+                      className="truncate text-xs font-normal text-muted-foreground"
+                      title={user?.email}
+                    >
+                      {user?.email}
+                    </p>
+                  </div>
+                </DropdownMenu>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut data-icon="inline-start" />
