@@ -4,8 +4,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { fontBody, fontCode, fontDisplay } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
+import { env } from "@/lib/env";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(env.siteUrl),
   title: {
     default: "QuickFix | Home Service Platform",
     template: "%s | QuickFix",

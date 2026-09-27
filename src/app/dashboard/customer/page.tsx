@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMyBookings } from "@/hooks/use-bookings";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMyPayments } from "@/hooks/use-payments";
+import { StatCardSkeleton } from "@/components/shared/skeletons";
 
 export default function CustomerOverviewPage() {
   const { data: user } = useCurrentUser();
@@ -34,12 +35,22 @@ export default function CustomerOverviewPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total bookings" value={bookings.length} />
-        <StatCard label="Active bookings" value={activeBookings.length} />
-        <StatCard
-          label="Total spent"
-          value={`৳${totalSpent.toLocaleString("en-US")}`}
-        />
+        {bookingsQuery.isLoading || paymentsQuery.isLoading ? (
+          <>
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+          </>
+        ) : (
+          <>
+            <StatCard label="Total bookings" value={bookings.length} />
+            <StatCard label="Active bookings" value={activeBookings.length} />
+            <StatCard
+              label="Total spent"
+              value={`৳${totalSpent.toLocaleString("en-US")}`}
+            />
+          </>
+        )}
       </div>
 
       <Tabs defaultValue="bookings">

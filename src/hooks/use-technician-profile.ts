@@ -8,11 +8,12 @@ import {
   updateMyTechnicianProfile,
   type UpdateTechnicianProfilePayload,
 } from "@/api/technician";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { ApiError } from "@/lib/api-error";
 import { queryKeys } from "@/lib/query-keys";
+import { revalidateTechnicianPage } from "@/lib/revalidate-technician";
 import type { AvailabilitySlot } from "@/types/technician";
 
-// ⚠️ /technician/availability ফ্ল্যাট ধরে নিচ্ছি (bookings/payments/services-এর প্যাটার্ন অনুসরণ করে)
 export function useMyAvailability() {
   return useQuery({
     queryKey: queryKeys.technicians.myAvailability,
@@ -22,12 +23,14 @@ export function useMyAvailability() {
 
 export function useUpdateTechnicianProfile() {
   const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+
   return useMutation({
     mutationFn: (payload: UpdateTechnicianProfilePayload) =>
       updateMyTechnicianProfile(payload),
-    onSuccess: () => {
-      // নিজের প্রোফাইল /technicians/:id (public) দিয়েই পড়ি, তাই ওই পুরো গ্রুপ invalidate
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["technicians"] });
+      if (user) await revalidateTechnicianPage(user.id);
       toast.success("প্রোফাইল আপডেট হয়েছে");
     },
     onError: (error) => {

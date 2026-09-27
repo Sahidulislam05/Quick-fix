@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAdminBookings, useAdminUsers } from "@/hooks/use-admin";
+import { StatCardSkeleton } from "@/components/shared/skeletons";
 
 const REVENUE_STATUSES = new Set(["PAID", "IN_PROGRESS", "COMPLETED"]);
 const ACTIVE_STATUSES = new Set([
@@ -37,12 +38,22 @@ export default function AdminOverviewPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total users" value={users.length} />
-        <StatCard label="Active bookings" value={activeBookings} />
-        <StatCard
-          label="Revenue"
-          value={`৳${revenue.toLocaleString("en-US")}`}
-        />
+        {usersQuery.isLoading || bookingsQuery.isLoading ? (
+          <>
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+          </>
+        ) : (
+          <>
+            <StatCard label="Total users" value={users.length} />
+            <StatCard label="Active bookings" value={activeBookings} />
+            <StatCard
+              label="Revenue"
+              value={`৳${revenue.toLocaleString("en-US")}`}
+            />
+          </>
+        )}
       </div>
       <p className="-mt-6 text-xs text-muted-foreground">
         * Revenue হিসাব হয়েছে PAID/IN_PROGRESS/COMPLETED বুকিংয়ের যোগফল থেকে —

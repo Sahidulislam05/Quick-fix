@@ -9,10 +9,12 @@ import {
   updateService,
   type ServicePayload,
 } from "@/api/service";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { ApiError } from "@/lib/api-error";
 import { queryKeys } from "@/lib/query-keys";
+import { revalidatePublicPages } from "@/lib/revalidate-public";
+import { revalidateTechnicianPage } from "@/lib/revalidate-technician";
 
-// ⚠️ /services/my-services ফ্ল্যাট ধরে নিচ্ছি (নিজের getMyServices-এর মূল অনুমান, bookings/payments-এর প্যাটার্নের সাথে মিলিয়ে)
 export function useMyServices() {
   return useQuery({
     queryKey: queryKeys.services.mine,
@@ -20,12 +22,20 @@ export function useMyServices() {
   });
 }
 
+async function revalidateServicePages(technicianId?: string) {
+  if (technicianId) await revalidateTechnicianPage(technicianId);
+  await revalidatePublicPages();
+}
+
 export function useCreateService() {
   const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+
   return useMutation({
     mutationFn: (payload: ServicePayload) => createService(payload),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.services.mine });
+      await revalidateServicePages(user?.id);
       toast.success("সার্ভিস তৈরি হয়েছে");
     },
     onError: (error) => {
@@ -38,6 +48,8 @@ export function useCreateService() {
 
 export function useUpdateService() {
   const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+
   return useMutation({
     mutationFn: ({
       id,
@@ -46,8 +58,9 @@ export function useUpdateService() {
       id: string;
       payload: Partial<ServicePayload>;
     }) => updateService(id, payload),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.services.mine });
+      await revalidateServicePages(user?.id);
       toast.success("সার্ভিস আপডেট হয়েছে");
     },
     onError: (error) => {
@@ -60,10 +73,13 @@ export function useUpdateService() {
 
 export function useDeactivateService() {
   const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+
   return useMutation({
     mutationFn: (id: string) => deleteService(id),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.services.mine });
+      await revalidateServicePages(user?.id);
       toast.success("সার্ভিস ডিঅ্যাক্টিভেট হয়েছে");
     },
     onError: (error) => {
