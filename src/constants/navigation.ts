@@ -11,6 +11,8 @@ import type { Role } from "@/types/user";
 export const PUBLIC_NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export type DashboardNavItem = {
