@@ -113,11 +113,31 @@ export function ServiceFormDialog({
                     !selectedCategory && "text-muted-foreground",
                   )}
                 >
-                  {selectedCategory
-                    ? `${selectedCategory.icon} ${selectedCategory.name}`
-                    : "Choose a category"}
+                  {categoriesQuery.isLoading
+                    ? "Loading categories..."
+                    : selectedCategory
+                      ? `${selectedCategory.icon} ${selectedCategory.name}`
+                      : "Choose a category"}
                 </span>
               </SelectTrigger>
+              <SelectContent>
+                {categoriesQuery.isLoading && (
+                  <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                    Loading...
+                  </div>
+                )}
+                {categoriesQuery.isSuccess &&
+                  categoriesQuery.data.length === 0 && (
+                    <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                      No categories available
+                    </div>
+                  )}
+                {(categoriesQuery.data ?? []).map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.icon} {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
             {form.formState.errors.categoryId && (
               <p className="text-xs text-destructive">

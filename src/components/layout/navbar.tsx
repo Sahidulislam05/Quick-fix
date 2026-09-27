@@ -10,7 +10,9 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -84,19 +86,20 @@ export function Navbar() {
                   <AvatarFallback>{initials(user.name)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenu>
-                  <div className="min-w-0 p-2">
-                    <p className="text-sm font-medium">{user.name}</p>
-                    <p
-                      className="truncate text-xs font-normal text-muted-foreground"
-                      title={user.email}
-                    >
-                      {user.email}
-                    </p>
-                  </div>
-                </DropdownMenu>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium">{user.name}</p>
+                      <p
+                        className="truncate text-xs font-normal text-muted-foreground"
+                        title={user.email}
+                      >
+                        {user.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem render={<Link href={ROLE_HOME[user.role]} />}>
                   <LayoutDashboard data-icon="inline-start" />
