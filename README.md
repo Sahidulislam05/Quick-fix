@@ -52,7 +52,7 @@ cd quickfix
 bun install
 cp .env.example .env.local
 
-# .env.local
+## .env.local
 
 \`\`\`
 

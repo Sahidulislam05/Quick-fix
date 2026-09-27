@@ -222,7 +222,7 @@ export default async function HomePage() {
               title="What do you need help with?"
               className="mb-10"
             />
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {categories.slice(0, 10).map((category) => (
                 <CategoryCard key={category.id} category={category} />
               ))}
